@@ -74,7 +74,7 @@ namespace UnitTests
 			var returnList = questionUnderTest.RetrieveLinkedEvents(events, 100145);	   //Djordje: added events list
 
 			Assert.IsNotNull(returnList, "Should have returned a list");
-			Assert.IsTrue(returnList.Where(x => x.ID == 1000144).ToList().Count > 0, "Should have returned a Linked Event");   //Djordje: Changed 1000144 to 100144
+			Assert.IsTrue(returnList.Where(x => x.ID == 100144).ToList().Count > 0, "Should have returned a Linked Event");   //Djordje: Changed 1000144 to 100144
 
 			returnList = null;
 			returnList = questionUnderTest.RetrieveLinkedEvents(events, 100147);	   //Djordje: added events list
@@ -83,7 +83,7 @@ namespace UnitTests
 			returnList = null;
 			returnList = questionUnderTest.RetrieveLinkedEvents(events, 100156);	   //Djordje: added events list
 			Assert.IsNotNull(returnList, "Should have returned a list");
-			Assert.IsTrue(returnList.Where(x => x.ID == 1000144).ToList().Count > 0, "Should have returned a Linked Event");   //Djordje: Changed 1000144 to 100144
+			Assert.IsTrue(returnList.Where(x => x.ID == 100144).ToList().Count > 0, "Should have returned a Linked Event");   //Djordje: Changed 1000144 to 100144
 
 
 			Assert.Pass();
