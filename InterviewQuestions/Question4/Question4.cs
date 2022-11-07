@@ -23,15 +23,28 @@ namespace InterviewQuestions
 			List<EventDefinition> eventDefinitions = Program.GetEventDefinitionList();
 			List<Event> events = Program.GetQuestionFourEventList();
 		
-			RetrieveLinkedEvents(100145);
-			RetrieveLinkedEvents(100147);
-			RetrieveLinkedEvents(100156);
+			RetrieveLinkedEvents(events, 100145);
+			RetrieveLinkedEvents(events, 100147);
+			RetrieveLinkedEvents(events, 100156);
 
 		}
 
-		public List<Event> RetrieveLinkedEvents(int originalLinkedEvent)
+		public List<Event> RetrieveLinkedEvents(IList<Event> events, int originalLinkedEvent)  //Djordje: added events list becuase don't know where to look for 'linked events'
 		{
-			return null;
+			Dictionary<int, Event> keyEventPairs = new Dictionary<int, Event>();
+			foreach (Event @event in events)
+				if(!keyEventPairs.ContainsKey(@event.ID))
+					keyEventPairs.Add(@event.ID, @event);
+
+
+			List<Event> linkedEvents = new List<Event>();
+
+			if (keyEventPairs.ContainsKey(originalLinkedEvent))
+				if (keyEventPairs.ContainsKey(keyEventPairs[originalLinkedEvent].LinkedEventID))
+					linkedEvents.Add(keyEventPairs[keyEventPairs[originalLinkedEvent].LinkedEventID]);
+
+			if (linkedEvents.Count > 0) return linkedEvents;
+			else return null;
 		}
 	}
 }

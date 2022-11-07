@@ -33,8 +33,61 @@ namespace InterviewQuestions
 
 		public List<Event> RetrieveAllChangeoverEvents(List<EventDefinition> eventDefinitions, List<Event> events, int changeoverDuration)
 		{
+			List<Event> resEvents = new List<Event>();
+			if (events.Count == 0) return resEvents;
 
-			return null;
+			int currentEventID = events[0].ID;
+
+			foreach (Event @event in events)
+			{
+				//Scenario 1:
+				//if (@event.EventDefinitionID == 4 || @event.EventDefinitionID == 5) resEvents.Add(@event);
+
+
+				//Scenario 2: if Changeover is longer than changeoverDuration, then split Changeover to Changeover + ChangeoverOverage and update EventID in all events accordingly
+				if (@event.EventDefinitionID == 4)
+				{
+					if (@event.EndDateTime != null)
+					{
+						int duration = (int)(@event.EndDateTime - @event.StartDateTime).Value.TotalMinutes;
+						if (duration > changeoverDuration)
+						{
+							DateTime? tmpEndTime = @event.EndDateTime;
+
+							@event.ID = currentEventID++;
+							@event.EndDateTime = @event.StartDateTime.AddMinutes(changeoverDuration);
+							resEvents.Add(@event);
+
+							Event changeoverOverageEvent = new Event() { ID = currentEventID, StartDateTime = @event.StartDateTime.AddMinutes(changeoverDuration), EndDateTime = tmpEndTime, EventDefinitionID = 5 };
+							resEvents.Add(changeoverOverageEvent);
+						}
+						else
+						{
+							@event.ID = currentEventID;
+							resEvents.Add(@event);
+						}
+					}
+                    else
+                    {
+						@event.ID = currentEventID;
+						resEvents.Add(@event);
+					}
+				}
+				else if (@event.EventDefinitionID == 5) 
+				{ 
+					@event.ID = currentEventID; resEvents.Add(@event); 
+				}
+				else
+				{
+					@event.ID = currentEventID;
+				}
+
+
+				currentEventID++;
+			}
+
+			return resEvents;
+			
 		}
 	}
 }

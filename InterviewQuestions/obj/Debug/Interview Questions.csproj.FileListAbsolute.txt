@@ -1,0 +1,7 @@
+C:\Users\ciadmin\source\repos\Djordje2\InterviewQuestions\bin\Debug\InterviewSolutions.exe.config
+C:\Users\ciadmin\source\repos\Djordje2\InterviewQuestions\bin\Debug\InterviewSolutions.exe
+C:\Users\ciadmin\source\repos\Djordje2\InterviewQuestions\bin\Debug\InterviewSolutions.pdb
+C:\Users\ciadmin\source\repos\Djordje2\InterviewQuestions\obj\Debug\Interview Questions.csproj.AssemblyReference.cache
+C:\Users\ciadmin\source\repos\Djordje2\InterviewQuestions\obj\Debug\Interview Questions.csproj.CoreCompileInputs.cache
+C:\Users\ciadmin\source\repos\Djordje2\InterviewQuestions\obj\Debug\InterviewSolutions.exe
+C:\Users\ciadmin\source\repos\Djordje2\InterviewQuestions\obj\Debug\InterviewSolutions.pdb
