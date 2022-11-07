@@ -28,7 +28,12 @@ namespace InterviewQuestions
 
 		public List<Event> RetrieveAllActiveEvents(IList<Event> events)
 		{
-			return null;
+			List<Event> activeEvents = new List<Event>();
+
+			foreach(Event @event in events)
+				if(@event.EndDateTime == null) activeEvents.Add(@event);
+
+			return activeEvents;
 		}
 	}
 }

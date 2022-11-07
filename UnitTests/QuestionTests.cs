@@ -26,8 +26,8 @@ namespace UnitTests
 
 			Assert.IsNotNull(returnList, "Should have returned a list");
 			Assert.IsNotEmpty(returnList.Where(x => x.EventDefinitionID == 4), "Should have returned some Changeover events");
-			Assert.IsNotEmpty(returnList.Where(x => x.EndDateTime.Value.Subtract(x.StartDateTime).TotalMinutes < changeoverDuration),
-				"Should not have any Changeover events over the changeover duration");			
+			//Assert.IsNotEmpty(returnList.Where(x => x.EndDateTime.Value.Subtract(x.StartDateTime).TotalMinutes < changeoverDuration), "Should not have any Changeover events over the changeover duration");			
+			Assert.IsEmpty(returnList.Where(x => x.EventDefinitionID == 4 && x.EndDateTime.Value.Subtract(x.StartDateTime).TotalMinutes > changeoverDuration), "Should not have any Changeover events over the changeover duration");   //Djordje: Changed
 			Assert.Pass();
 		}
 
@@ -44,6 +44,7 @@ namespace UnitTests
 
 			Assert.IsNotNull(returnList, "Should have returned a list");
 			Assert.IsNotEmpty(returnList.Where(x => x.EventDefinitionID == 4 || x.EventDefinitionID == 5), "Should have returned some Changeover events or Changeover Overrun events");
+			Assert.IsNotEmpty(returnList.Where(x => x.EventDefinitionID == 4 && x.EndDateTime.Value.Subtract(x.StartDateTime).TotalMinutes < changeoverDuration), "Should not have any Changeover events over the changeover duration");   //Djordje: added this condition
 			Assert.Pass();
 		}
 
@@ -59,6 +60,7 @@ namespace UnitTests
 
 			Assert.IsNotNull(returnList, "Should have returned a list");
 			Assert.IsTrue(returnList.Count > 0, "Should have returned some Active Events");
+			Assert.IsEmpty(returnList.Where(x => x.EndDateTime != null), "Should not have any not-active event (event with EndDateTime != null)");  //Djordje
 			Assert.Pass();
 		}
 
@@ -69,19 +71,19 @@ namespace UnitTests
 			List<EventDefinition> eventDefinitions = Program.GetEventDefinitionList();
 			List<Event> events = Program.GetQuestionFourEventList();
 
-			var returnList = questionUnderTest.RetrieveLinkedEvents(100145);
+			var returnList = questionUnderTest.RetrieveLinkedEvents(events, 100145);	   //Djordje: added events list
 
 			Assert.IsNotNull(returnList, "Should have returned a list");
-			Assert.IsTrue(returnList.Where(x => x.ID == 1000144).ToList().Count > 0, "Should have returned a Linked Event");
+			Assert.IsTrue(returnList.Where(x => x.ID == 100144).ToList().Count > 0, "Should have returned a Linked Event");   //Djordje: Changed 1000144 to 100144
 
 			returnList = null;
-			returnList = questionUnderTest.RetrieveLinkedEvents(100147);
+			returnList = questionUnderTest.RetrieveLinkedEvents(events, 100147);	   //Djordje: added events list
 			Assert.IsNull(returnList, "Should have no linked event for this event");
 
 			returnList = null;
-			returnList = questionUnderTest.RetrieveLinkedEvents(100156);
+			returnList = questionUnderTest.RetrieveLinkedEvents(events, 100156);	   //Djordje: added events list
 			Assert.IsNotNull(returnList, "Should have returned a list");
-			Assert.IsTrue(returnList.Where(x => x.ID == 1000144).ToList().Count > 0, "Should have returned a Linked Event");
+			Assert.IsTrue(returnList.Where(x => x.ID == 100144).ToList().Count > 0, "Should have returned a Linked Event");   //Djordje: Changed 1000144 to 100144
 
 
 			Assert.Pass();

@@ -30,9 +30,73 @@ namespace InterviewQuestions
 
         public List<Event> EvaluateChangeover(List<EventDefinition> eventDefinitions, List<Event> events, int changeoverDuration)
         {
+            List<Event> resultEvents = new List<Event>();
+            if (events.Count == 0) return resultEvents;
+
+            Event event1 = null;
+            Event event2 = null;
+            Event changeoverEvent = null;
+            int currentEventID = events[0].ID;
+
+            for (int i = 0; i < events.Count; i++)
+            {
+                events[i].ID = currentEventID++;
+                resultEvents.Add(events[i]);
+
+                if (events[i].EventDefinitionID == 1)
+                {
+                    event1 = events[i];
+
+                    for (int j = i + 1; j < events.Count; j++)
+                    {
+                        if (events[j].EventDefinitionID == 1 || events[j].EventDefinitionID == 6)
+                        {
+                            event2 = events[j];
+                            //i = j;
+                            break;
+                        }
+                    }
+                }
+
+                //for(int j = i + 1; j < events.Count; j++)
+                //{
+                //    if (events[j].EventDefinitionID == 1 || events[j].EventDefinitionID == 6)
+                //    {
+                //        event2 = events[j];
+                //        //i = j;
+                //        break;
+                //    }
+                //}
+
+                if (event1 != null && event2 != null)
+                {
+                    if (event2.StartDateTime > event1.EndDateTime.Value.AddMinutes(changeoverDuration))
+                    {
+                        changeoverEvent = new Event() { ID = currentEventID++, StartDateTime = (DateTime)event1.EndDateTime, EndDateTime = event1.EndDateTime.Value.AddMinutes(changeoverDuration), EventDefinitionID = 4 };
+                        resultEvents.Add(changeoverEvent);
+                        changeoverEvent = new Event() { ID = currentEventID++, StartDateTime = event1.EndDateTime.Value.AddMinutes(changeoverDuration), EndDateTime = event2.StartDateTime, EventDefinitionID = 5 };
+                        resultEvents.Add(changeoverEvent);
+                    }
+                    else
+                    {
+                        changeoverEvent = new Event() { ID = currentEventID++, StartDateTime = (DateTime)event1.EndDateTime, EndDateTime = event2.StartDateTime, EventDefinitionID = 4 };
+                        resultEvents.Add(changeoverEvent);
+                    }
+
+                    event1 = null;
+                    event2 = null;
+                }
 
 
-            return null;
+
+
+
+            }
+
+            //foreach (Event @event in resultEvents)
+            //    Console.WriteLine("ID: " + @event.ID + ", Type: " + @event.EventDefinitionID + ", Start: " + @event.StartDateTime + ", Stop: " + @event.EndDateTime);
+
+            return resultEvents;           
         }
     }
 }
